@@ -42,7 +42,9 @@ while True:
             time.sleep(int(sleep))
         elif lucky == 1:
             lucky = random.randint(0,1)
-            if lucky == 0:
+            if result["ok"] == False:
+                placeholder = "h"
+            elif lucky == 0:
                 result = pytg.sendsticker(token,"CAACAgIAAxkBAAMEXolx18fLBEz726hs5ujKoLVB-zcAAgRzAAKezgsAAY2zz5SZwiUlGAQ",channel)
                 diceBAN = diceBAN + 1
                 print(result)

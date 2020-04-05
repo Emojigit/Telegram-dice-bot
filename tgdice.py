@@ -15,7 +15,7 @@ elif sleep == "":
 
 print(pytg.send(token,"%23DiceBot %23DiceBotStart\nBot session start!\nSend dice per {} second".format(sleep),channel))
 
-dice1,dice2,dice3,dice4,dice5,dice6,diceBAN,dicenonstop = 0,0,0,0,0,0,0,0
+dice1,dice2,dice3,dice4,dice5,dice6,diceBAN,dicenonstop,dicecant = 0,0,0,0,0,0,0,0,0
 
 while True:
     try:
@@ -47,11 +47,16 @@ while True:
                 diceBAN = diceBAN + 1
                 print(result)
             elif lucky == 1:
-                result = pytg.sendsticker(token,"CAACAgIAAxkBAAMFXolx2KD2jRIYi9aPSgxHv44i0DoAAgVzAAKezgsAAZcFf4sIxmfIGAQ",channel)
-                dicenonstop = dicenonstop + 1
+                lucky = random.randint(0,20)
+                if lucky != 20:
+                    result = pytg.sendsticker(token,"CAACAgIAAxkBAAMFXolx2KD2jRIYi9aPSgxHv44i0DoAAgVzAAKezgsAAZcFf4sIxmfIGAQ",channel)
+                    dicenonstop = dicenonstop + 1
+                else:
+                    result = pytg.sendsticker(token,"CAACAgIAAxkBAAMCXomZFLxb5_AtGnij69ssbI4vjpEAAppcAAKezgsAATg8wxLSaVSzGAQ",channel)
                 print(result)
             time.sleep(int(sleep))
         if result["ok"] == False:
+            dicecant = dicecant + 1
             if result["error_code"] == 429:
                 time.sleep(result["parameters"]["retry_after"] + 1)
             if result["error_code"] == 400:
@@ -60,4 +65,4 @@ while True:
     except KeyboardInterrupt:
         break
 
-print(pytg.send(token,"%23DiceBot %23DiceBotReport\nBot session ended!\n⚀×{}\n⚁×{}\n⚂×{}\n⚃×{}\n⚄×{}\n⚅×{}\nBAN×{}\nNonstop×{}".format(dice1,dice2,dice3,dice4,dice5,dice6,diceBAN,dicenonstop),channel))
+print(pytg.send(token,"%23DiceBot %23DiceBotReport\nBot session ended!\n⚀×{}\n⚁×{}\n⚂×{}\n⚃×{}\n⚄×{}\n⚅×{}\nBAN×{}\nNonstop×{}\nCant Send×{}".format(dice1,dice2,dice3,dice4,dice5,dice6,diceBAN,dicenonstop,dicecant),channel))

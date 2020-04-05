@@ -27,7 +27,7 @@ while True:
                 if result["error_code"] == 429:
                     time.sleep(result["parameters"]["retry_after"] + 1)
                     continue
-            if result["result"]["dice"]["value"] == 1:
+            elif result["result"]["dice"]["value"] == 1:
                 dice1 = dice1 + 1
             elif result["result"]["dice"]["value"] == 2:
                 dice2 = dice2 + 1
@@ -51,6 +51,12 @@ while True:
                 dicenonstop = dicenonstop + 1
                 print(result)
             time.sleep(int(sleep))
+        if result["ok"] == False:
+            if result["error_code"] == 429:
+                time.sleep(result["parameters"]["retry_after"] + 1)
+            if result["error_code"] == 400:
+                if result["description"] == 'Bad Request: have no rights to send a message':
+                    time.sleep(int(30))
     except KeyboardInterrupt:
         break
 

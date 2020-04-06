@@ -46,15 +46,17 @@ while True:
             time.sleep(int(sleep))
         elif lucky == 1:
             lucky = random.randint(0,1)
-            elif lucky == 0:
+            if lucky == 0:
                 result = pytg.sendsticker(token,"CAACAgIAAxkBAAMEXolx18fLBEz726hs5ujKoLVB-zcAAgRzAAKezgsAAY2zz5SZwiUlGAQ",channel)
-                diceBAN = diceBAN + 1
+                if result["ok"] == True:
+                    diceBAN = diceBAN + 1
                 print(result)
             elif lucky == 1:
                 lucky = random.randint(0,20)
                 if lucky != 20:
                     result = pytg.sendsticker(token,"CAACAgIAAxkBAAMFXolx2KD2jRIYi9aPSgxHv44i0DoAAgVzAAKezgsAAZcFf4sIxmfIGAQ",channel)
-                    dicenonstop = dicenonstop + 1
+                    if result["ok"] == True:
+                        dicenonstop = dicenonstop + 1
                 else:
                     result = pytg.sendsticker(token,"CAACAgIAAxkBAAMCXomZFLxb5_AtGnij69ssbI4vjpEAAppcAAKezgsAATg8wxLSaVSzGAQ",channel)
                 print(result)
@@ -63,9 +65,14 @@ while True:
             dicecant = dicecant + 1
             if result["error_code"] == 429:
                 time.sleep(result["parameters"]["retry_after"] + 1)
-            if result["error_code"] == 400:
+            elif result["error_code"] == 400:
                 if result["description"] == 'Bad Request: have no rights to send a message':
                     time.sleep(int(30))
+            elif result["error_code"] == 401:
+                if result["description"] == 'Unauthorized':
+                    token = str(input("This token is unauthorized. Please give me a new token. "))
+            pytg.send(token,"Error {}\nDescription: {}\nThis error was sloved.".format(result["error_code"],result["description"]),channel)
+        continue
     except KeyboardInterrupt:
         break
 

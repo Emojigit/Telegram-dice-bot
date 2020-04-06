@@ -3,8 +3,12 @@
 import pytg
 import time
 import random
+import json
 
-
+langplace = str(input("Enter the lang json place: [./lang/en-us.json] "))
+if langplace == "":
+    langplace = "./lang/en-us.json"
+langjson = json.load(open(langplace))
 token = str(input("Enter the token of the bot: "))
 channel = str(input("Enter the group ID: "))
 sleep = str(input("Enter sleep time: [5] "))
@@ -13,7 +17,7 @@ if sleep == "0":
 elif sleep == "":
     sleep = "5"
 
-print(pytg.send(token,"%23DiceBot %23DiceBotStart\nBot session start!\nSend dice per {} second".format(sleep),channel))
+print(pytg.send(token,"%23DiceBot %23DiceBotStart\nDiceBot v1.0.1-stable-v0.1.0-alpha\n{}\nSend dice per {} second".format(langjson["start"],sleep),channel))
 
 dice1,dice2,dice3,dice4,dice5,dice6,diceBAN,dicenonstop,dicecant = 0,0,0,0,0,0,0,0,0
 
@@ -65,4 +69,4 @@ while True:
     except KeyboardInterrupt:
         break
 
-print(pytg.send(token,"%23DiceBot %23DiceBotReport\nBot session ended!\n⚀×{}\n⚁×{}\n⚂×{}\n⚃×{}\n⚄×{}\n⚅×{}\nBAN×{}\nNonstop×{}\nCant Send×{}".format(dice1,dice2,dice3,dice4,dice5,dice6,diceBAN,dicenonstop,dicecant),channel))
+print(pytg.send(token,"%23DiceBot %23DiceBotReport\n{}\n⚀×{}\n⚁×{}\n⚂×{}\n⚃×{}\n⚄×{}\n⚅×{}\nBAN×{}\nNonstop×{}\nCant Send×{}".format(langjson["ended"],dice1,dice2,dice3,dice4,dice5,dice6,diceBAN,dicenonstop,dicecant),channel))
